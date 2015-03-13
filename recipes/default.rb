@@ -57,9 +57,10 @@ when 'rhel'
       package 'buildsys-macros'
     end
 
+    build_version = node['runit']['file']['version']
     rpm_installed = "rpm -qa | grep -q '^runit'"
-    cookbook_file "#{Chef::Config[:file_cache_path]}/runit-2.1.1.tar.gz" do
-      source 'runit-2.1.1.tar.gz'
+    cookbook_file "#{Chef::Config[:file_cache_path]}/runit-#{build_version}.tar.gz" do
+      source "runit-#{build_version}.tar.gz"
       not_if rpm_installed
       notifies :run, 'bash[rhel_build_install]', :immediately
     end
@@ -68,11 +69,11 @@ when 'rhel'
       user 'root'
       cwd Chef::Config[:file_cache_path]
       code <<-EOH
-        tar xzf runit-2.1.1.tar.gz
-        cd runit-2.1.1
+        tar xzf runit-#{build_version}.tar.gz
+        cd runit-#{build_version}
         ./build.sh
         rpm_root_dir=`rpm --eval '%{_rpmdir}'`
-        rpm -ivh "${rpm_root_dir}/runit-2.1.1.rpm"
+        rpm -ivh "${rpm_root_dir}/runit-#{build_version}.rpm"
       EOH
       action :run
       not_if rpm_installed

@@ -47,6 +47,7 @@ when 'rhel'
   default['runit']['start'] = '/etc/init.d/runit-start start'
   default['runit']['stop'] = '/etc/init.d/runit-start stop'
   default['runit']['reload'] = '/etc/init.d/runit-start reload'
+  default['runit']['file']['version'] = '2.1.1'
 
 when 'gentoo'
   default['runit']['sv_bin'] = '/usr/bin/sv'
