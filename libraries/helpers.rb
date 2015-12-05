@@ -82,13 +82,13 @@ module RunitCookbook
     end
 
     def wait_for_service
-      unless inside_docker?
+      # unless inside_docker?
         sleep 1 until ::FileTest.pipe?("#{service_dir_name}/supervise/ok")
 
         if new_resource.log
           sleep 1 until ::FileTest.pipe?("#{service_dir_name}/log/supervise/ok")
         end
-      end
+      # end
     end
 
     def runit_sv_works?
